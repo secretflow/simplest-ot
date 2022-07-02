@@ -24,14 +24,15 @@ struct ot_receiver {
 
 typedef struct ot_receiver SIMPLEOT_RECEIVER;
 
-void receiver_procS(SIMPLEOT_RECEIVER *);
-bool receiver_procS_check(SIMPLEOT_RECEIVER *);
-void receiver_rsgen(SIMPLEOT_RECEIVER *, unsigned char *, unsigned char[1]);
-void receiver_keygen(SIMPLEOT_RECEIVER *, unsigned char (*)[HASHBYTES]);
-void receiver_maketable(SIMPLEOT_RECEIVER *);
+void portable_receiver_procS(SIMPLEOT_RECEIVER *);
+bool portable_receiver_procS_check(SIMPLEOT_RECEIVER *);
+void portable_receiver_rsgen(SIMPLEOT_RECEIVER *, unsigned char *,
+                             unsigned char[1]);
+void portable_receiver_keygen(SIMPLEOT_RECEIVER *,
+                              unsigned char (*)[HASHBYTES]);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // ifndef OT_RECEIVER_H
+#endif  // ifndef OT_RECEIVER_H

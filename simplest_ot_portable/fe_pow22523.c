@@ -1,7 +1,6 @@
 #include "fe.h"
 
-void fe_pow22523(fe out,const fe z)
-{
+void fe_pow22523(fe out, const fe z) {
   fe t0;
   fe t1;
   fe t2;

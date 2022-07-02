@@ -1,9 +1,8 @@
 #include "ge4x.h"
 
-void ge4x_pack(unsigned char r[128], const ge4x *p)
-{
+void ge4x_pack(unsigned char r[128], const ge4x *p) {
   gfe4x tx, ty, zi;
-  gfe4x_invert(&zi, &p->z); 
+  gfe4x_invert(&zi, &p->z);
   gfe4x_mul(&tx, &p->x, &zi);
   gfe4x_mul(&ty, &p->y, &zi);
   gfe4x_pack(r, &ty);
@@ -16,4 +15,3 @@ void ge4x_pack(unsigned char r[128], const ge4x *p)
   r[95] ^= res[2] << 7;
   r[127] ^= res[3] << 7;
 }
-
