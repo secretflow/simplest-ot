@@ -1,7 +1,6 @@
 #include "crypto_verify_32.h"
 
-int crypto_verify_32(const unsigned char *x,const unsigned char *y)
-{
+int simpleot_crypto_verify_32(const unsigned char *x, const unsigned char *y) {
   unsigned int differentbits = 0;
 #define F(i) differentbits |= x[i] ^ y[i];
   F(0)

@@ -1,9 +1,9 @@
+#include "ot_receiver.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "ot_receiver.h"
 
 #include "cpucycles.h"
 #include "network.h"
@@ -25,11 +25,10 @@ void ot_receiver_test(SIMPLEOT_RECEIVER *receiver, int sockfd) {
   //
 
   for (i = 0; i < NOTS; i += 1) {
-    randombytes(&cs[0], sizeof(cs));
+    simpleot_randombytes(&cs[0], sizeof(cs));
     cs[0] &= 1;
 
-    if (VERBOSE)
-      printf("%4d-th choose bit = %d\n", i, cs[0]);
+    if (VERBOSE) printf("%4d-th choose bit = %d\n", i, cs[0]);
 
     receiver_rsgen(receiver, Rs_pack, cs);
 
@@ -42,8 +41,7 @@ void ot_receiver_test(SIMPLEOT_RECEIVER *receiver, int sockfd) {
     if (VERBOSE) {
       printf("%4d-th reciever key:", i);
 
-      for (k = 0; k < HASHBYTES; k++)
-        printf("%.2X", keys[0][k]);
+      for (k = 0; k < HASHBYTES; k++) printf("%.2X", keys[0][k]);
       printf("\n");
     }
   }
@@ -86,8 +84,7 @@ int main(int argc, char *argv[]) {
 
   //
 
-  if (!VERBOSE)
-    printf("[n=%d] Elapsed time:  %lld cycles\n", NOTS, t);
+  if (!VERBOSE) printf("[n=%d] Elapsed time:  %lld cycles\n", NOTS, t);
 
   shutdown(sockfd, 2);
 

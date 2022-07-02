@@ -25,8 +25,7 @@ Proof:
   so floor(2^(-255)(h + 19 2^(-25) h9 + 2^(-1))) = q.
 */
 
-void fe_tobytes(unsigned char *s,const fe h)
-{
+void fe_tobytes(unsigned char *s, const fe h) {
   crypto_int32 h0 = h[0];
   crypto_int32 h1 = h[1];
   crypto_int32 h2 = h[2];
@@ -49,7 +48,7 @@ void fe_tobytes(unsigned char *s,const fe h)
   crypto_int32 carry8;
   crypto_int32 carry9;
 
-  q = (19 * h9 + (((crypto_int32) 1) << 24)) >> 25;
+  q = (19 * h9 + (((crypto_int32)1) << 24)) >> 25;
   q = (h0 + q) >> 26;
   q = (h1 + q) >> 25;
   q = (h2 + q) >> 26;
@@ -65,17 +64,36 @@ void fe_tobytes(unsigned char *s,const fe h)
   h0 += 19 * q;
   /* Goal: Output h-2^255 q, which is between 0 and 2^255-20. */
 
-  carry0 = h0 >> 26; h1 += carry0; h0 -= carry0 << 26;
-  carry1 = h1 >> 25; h2 += carry1; h1 -= carry1 << 25;
-  carry2 = h2 >> 26; h3 += carry2; h2 -= carry2 << 26;
-  carry3 = h3 >> 25; h4 += carry3; h3 -= carry3 << 25;
-  carry4 = h4 >> 26; h5 += carry4; h4 -= carry4 << 26;
-  carry5 = h5 >> 25; h6 += carry5; h5 -= carry5 << 25;
-  carry6 = h6 >> 26; h7 += carry6; h6 -= carry6 << 26;
-  carry7 = h7 >> 25; h8 += carry7; h7 -= carry7 << 25;
-  carry8 = h8 >> 26; h9 += carry8; h8 -= carry8 << 26;
-  carry9 = h9 >> 25;               h9 -= carry9 << 25;
-                  /* h10 = carry9 */
+  carry0 = h0 >> 26;
+  h1 += carry0;
+  h0 -= carry0 << 26;
+  carry1 = h1 >> 25;
+  h2 += carry1;
+  h1 -= carry1 << 25;
+  carry2 = h2 >> 26;
+  h3 += carry2;
+  h2 -= carry2 << 26;
+  carry3 = h3 >> 25;
+  h4 += carry3;
+  h3 -= carry3 << 25;
+  carry4 = h4 >> 26;
+  h5 += carry4;
+  h4 -= carry4 << 26;
+  carry5 = h5 >> 25;
+  h6 += carry5;
+  h5 -= carry5 << 25;
+  carry6 = h6 >> 26;
+  h7 += carry6;
+  h6 -= carry6 << 26;
+  carry7 = h7 >> 25;
+  h8 += carry7;
+  h7 -= carry7 << 25;
+  carry8 = h8 >> 26;
+  h9 += carry8;
+  h8 -= carry8 << 26;
+  carry9 = h9 >> 25;
+  h9 -= carry9 << 25;
+  /* h10 = carry9 */
 
   /*
   Goal: Output h0+...+2^255 h10-2^255 q, which is between 0 and 2^255-20.

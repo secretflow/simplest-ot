@@ -1,8 +1,8 @@
+#include "ot_sender.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-
-#include "ot_sender.h"
 
 #include "cpucycles.h"
 #include "network.h"
@@ -31,11 +31,9 @@ void ot_sender_test(SIMPLEOT_SENDER *sender, int newsockfd) {
     if (VERBOSE) {
       printf("%4d-th sender keys:", i);
 
-      for (k = 0; k < HASHBYTES; k++)
-        printf("%.2X", keys[0][0][k]);
+      for (k = 0; k < HASHBYTES; k++) printf("%.2X", keys[0][0][k]);
       printf(" ");
-      for (k = 0; k < HASHBYTES; k++)
-        printf("%.2X", keys[1][0][k]);
+      for (k = 0; k < HASHBYTES; k++) printf("%.2X", keys[1][0][k]);
       printf("\n");
     }
   }
@@ -82,8 +80,7 @@ int main(int argc, char *argv[]) {
 
   //
 
-  if (!VERBOSE)
-    printf("[n=%d] Elapsed time:  %lld cycles\n", NOTS, t);
+  if (!VERBOSE) printf("[n=%d] Elapsed time:  %lld cycles\n", NOTS, t);
 
   shutdown(newsockfd, 2);
   shutdown(sockfd, 2);
