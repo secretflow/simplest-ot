@@ -5,23 +5,22 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
-#include "sc25519.h"
 #include "ge4x.h"
 #include "ot_config.h"
+#include "sc25519.h"
 
-struct ot_receiver
-{
-	unsigned char S_pack[ PACKBYTES ];
-	ge4x S;
-	ge4x table[ 64/DIST ][8];
+struct ot_receiver {
+  unsigned char S_pack[PACKBYTES];
+  ge4x S;
+  ge4x table[64 / DIST][8];
 
-	// temporary
+  // temporary
 
-	ge4x xB;
-	sc25519 x[4];
+  ge4x xB;
+  sc25519 x[4];
 };
 
 typedef struct ot_receiver SIMPLEOT_RECEIVER;
@@ -36,5 +35,4 @@ void receiver_keygen(SIMPLEOT_RECEIVER *, unsigned char (*)[HASHBYTES]);
 }
 #endif
 
-#endif //ifndef OT_RECEIVER_H
-
+#endif  // ifndef OT_RECEIVER_H

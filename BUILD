@@ -6,9 +6,17 @@ cc_library(
         [
             "simplest_ot_portable/*.c",
         ],
-        exclude = ["simplest_ot_portable/*_test.c"],
+        exclude = [
+            "simplest_ot_portable/*_test.c",
+            "simplest_ot_portable/cpucycles.c",
+        ],
     ),
-    hdrs = glob(["simplest_ot_portable/*.h"]),
+    hdrs = glob(
+        ["simplest_ot_portable/*.h"],
+        exclude = [
+            "simplest_ot_portable/cpucycles.h",
+        ],
+    ),
     linkstatic = True,
     visibility = ["//visibility:public"],
 )

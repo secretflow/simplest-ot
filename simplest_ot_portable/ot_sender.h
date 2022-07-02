@@ -20,14 +20,14 @@ struct ot_sender {
 
 typedef struct ot_sender SIMPLEOT_SENDER;
 
-void sender_genS(SIMPLEOT_SENDER *, unsigned char *);
-void sender_keygen(SIMPLEOT_SENDER *, unsigned char *,
-                   unsigned char (*)[1][HASHBYTES]);
-bool sender_keygen_check(SIMPLEOT_SENDER *, unsigned char *,
-                         unsigned char (*)[1][HASHBYTES]);
+void portable_sender_genS(SIMPLEOT_SENDER *, unsigned char *);
+void portable_sender_keygen(SIMPLEOT_SENDER *, unsigned char *,
+                            unsigned char (*)[1][HASHBYTES]);
+bool portable_sender_keygen_check(SIMPLEOT_SENDER *, unsigned char *,
+                                  unsigned char (*)[1][HASHBYTES]);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // ifndef OT_SENDER_H
+#endif  // ifndef OT_SENDER_H

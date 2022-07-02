@@ -1,24 +1,22 @@
-#include "sc.h"
 #include "crypto_int64.h"
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
+#include "sc.h"
 
-static crypto_uint64 load_3(const unsigned char *in)
-{
+static crypto_uint64 load_3(const unsigned char *in) {
   crypto_uint64 result;
-  result = (crypto_uint64) in[0];
-  result |= ((crypto_uint64) in[1]) << 8;
-  result |= ((crypto_uint64) in[2]) << 16;
+  result = (crypto_uint64)in[0];
+  result |= ((crypto_uint64)in[1]) << 8;
+  result |= ((crypto_uint64)in[2]) << 16;
   return result;
 }
 
-static crypto_uint64 load_4(const unsigned char *in)
-{
+static crypto_uint64 load_4(const unsigned char *in) {
   crypto_uint64 result;
-  result = (crypto_uint64) in[0];
-  result |= ((crypto_uint64) in[1]) << 8;
-  result |= ((crypto_uint64) in[2]) << 16;
-  result |= ((crypto_uint64) in[3]) << 24;
+  result = (crypto_uint64)in[0];
+  result |= ((crypto_uint64)in[1]) << 8;
+  result |= ((crypto_uint64)in[2]) << 16;
+  result |= ((crypto_uint64)in[3]) << 24;
   return result;
 }
 
@@ -33,8 +31,8 @@ Output:
   where l = 2^252 + 27742317777372353535851937790883648493.
 */
 
-void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,const unsigned char *c)
-{
+void sc_muladd(unsigned char *s, const unsigned char *a, const unsigned char *b,
+               const unsigned char *c) {
   crypto_int64 a0 = 2097151 & load_3(a);
   crypto_int64 a1 = 2097151 & (load_4(a + 2) >> 5);
   crypto_int64 a2 = 2097151 & (load_3(a + 5) >> 2);
@@ -119,55 +117,110 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   crypto_int64 carry21;
   crypto_int64 carry22;
 
-  s0 = c0 + a0*b0;
-  s1 = c1 + a0*b1 + a1*b0;
-  s2 = c2 + a0*b2 + a1*b1 + a2*b0;
-  s3 = c3 + a0*b3 + a1*b2 + a2*b1 + a3*b0;
-  s4 = c4 + a0*b4 + a1*b3 + a2*b2 + a3*b1 + a4*b0;
-  s5 = c5 + a0*b5 + a1*b4 + a2*b3 + a3*b2 + a4*b1 + a5*b0;
-  s6 = c6 + a0*b6 + a1*b5 + a2*b4 + a3*b3 + a4*b2 + a5*b1 + a6*b0;
-  s7 = c7 + a0*b7 + a1*b6 + a2*b5 + a3*b4 + a4*b3 + a5*b2 + a6*b1 + a7*b0;
-  s8 = c8 + a0*b8 + a1*b7 + a2*b6 + a3*b5 + a4*b4 + a5*b3 + a6*b2 + a7*b1 + a8*b0;
-  s9 = c9 + a0*b9 + a1*b8 + a2*b7 + a3*b6 + a4*b5 + a5*b4 + a6*b3 + a7*b2 + a8*b1 + a9*b0;
-  s10 = c10 + a0*b10 + a1*b9 + a2*b8 + a3*b7 + a4*b6 + a5*b5 + a6*b4 + a7*b3 + a8*b2 + a9*b1 + a10*b0;
-  s11 = c11 + a0*b11 + a1*b10 + a2*b9 + a3*b8 + a4*b7 + a5*b6 + a6*b5 + a7*b4 + a8*b3 + a9*b2 + a10*b1 + a11*b0;
-  s12 = a1*b11 + a2*b10 + a3*b9 + a4*b8 + a5*b7 + a6*b6 + a7*b5 + a8*b4 + a9*b3 + a10*b2 + a11*b1;
-  s13 = a2*b11 + a3*b10 + a4*b9 + a5*b8 + a6*b7 + a7*b6 + a8*b5 + a9*b4 + a10*b3 + a11*b2;
-  s14 = a3*b11 + a4*b10 + a5*b9 + a6*b8 + a7*b7 + a8*b6 + a9*b5 + a10*b4 + a11*b3;
-  s15 = a4*b11 + a5*b10 + a6*b9 + a7*b8 + a8*b7 + a9*b6 + a10*b5 + a11*b4;
-  s16 = a5*b11 + a6*b10 + a7*b9 + a8*b8 + a9*b7 + a10*b6 + a11*b5;
-  s17 = a6*b11 + a7*b10 + a8*b9 + a9*b8 + a10*b7 + a11*b6;
-  s18 = a7*b11 + a8*b10 + a9*b9 + a10*b8 + a11*b7;
-  s19 = a8*b11 + a9*b10 + a10*b9 + a11*b8;
-  s20 = a9*b11 + a10*b10 + a11*b9;
-  s21 = a10*b11 + a11*b10;
-  s22 = a11*b11;
+  s0 = c0 + a0 * b0;
+  s1 = c1 + a0 * b1 + a1 * b0;
+  s2 = c2 + a0 * b2 + a1 * b1 + a2 * b0;
+  s3 = c3 + a0 * b3 + a1 * b2 + a2 * b1 + a3 * b0;
+  s4 = c4 + a0 * b4 + a1 * b3 + a2 * b2 + a3 * b1 + a4 * b0;
+  s5 = c5 + a0 * b5 + a1 * b4 + a2 * b3 + a3 * b2 + a4 * b1 + a5 * b0;
+  s6 = c6 + a0 * b6 + a1 * b5 + a2 * b4 + a3 * b3 + a4 * b2 + a5 * b1 + a6 * b0;
+  s7 = c7 + a0 * b7 + a1 * b6 + a2 * b5 + a3 * b4 + a4 * b3 + a5 * b2 +
+       a6 * b1 + a7 * b0;
+  s8 = c8 + a0 * b8 + a1 * b7 + a2 * b6 + a3 * b5 + a4 * b4 + a5 * b3 +
+       a6 * b2 + a7 * b1 + a8 * b0;
+  s9 = c9 + a0 * b9 + a1 * b8 + a2 * b7 + a3 * b6 + a4 * b5 + a5 * b4 +
+       a6 * b3 + a7 * b2 + a8 * b1 + a9 * b0;
+  s10 = c10 + a0 * b10 + a1 * b9 + a2 * b8 + a3 * b7 + a4 * b6 + a5 * b5 +
+        a6 * b4 + a7 * b3 + a8 * b2 + a9 * b1 + a10 * b0;
+  s11 = c11 + a0 * b11 + a1 * b10 + a2 * b9 + a3 * b8 + a4 * b7 + a5 * b6 +
+        a6 * b5 + a7 * b4 + a8 * b3 + a9 * b2 + a10 * b1 + a11 * b0;
+  s12 = a1 * b11 + a2 * b10 + a3 * b9 + a4 * b8 + a5 * b7 + a6 * b6 + a7 * b5 +
+        a8 * b4 + a9 * b3 + a10 * b2 + a11 * b1;
+  s13 = a2 * b11 + a3 * b10 + a4 * b9 + a5 * b8 + a6 * b7 + a7 * b6 + a8 * b5 +
+        a9 * b4 + a10 * b3 + a11 * b2;
+  s14 = a3 * b11 + a4 * b10 + a5 * b9 + a6 * b8 + a7 * b7 + a8 * b6 + a9 * b5 +
+        a10 * b4 + a11 * b3;
+  s15 = a4 * b11 + a5 * b10 + a6 * b9 + a7 * b8 + a8 * b7 + a9 * b6 + a10 * b5 +
+        a11 * b4;
+  s16 = a5 * b11 + a6 * b10 + a7 * b9 + a8 * b8 + a9 * b7 + a10 * b6 + a11 * b5;
+  s17 = a6 * b11 + a7 * b10 + a8 * b9 + a9 * b8 + a10 * b7 + a11 * b6;
+  s18 = a7 * b11 + a8 * b10 + a9 * b9 + a10 * b8 + a11 * b7;
+  s19 = a8 * b11 + a9 * b10 + a10 * b9 + a11 * b8;
+  s20 = a9 * b11 + a10 * b10 + a11 * b9;
+  s21 = a10 * b11 + a11 * b10;
+  s22 = a11 * b11;
   s23 = 0;
 
-  carry0 = (s0 + (1<<20)) >> 21; s1 += carry0; s0 -= carry0 << 21;
-  carry2 = (s2 + (1<<20)) >> 21; s3 += carry2; s2 -= carry2 << 21;
-  carry4 = (s4 + (1<<20)) >> 21; s5 += carry4; s4 -= carry4 << 21;
-  carry6 = (s6 + (1<<20)) >> 21; s7 += carry6; s6 -= carry6 << 21;
-  carry8 = (s8 + (1<<20)) >> 21; s9 += carry8; s8 -= carry8 << 21;
-  carry10 = (s10 + (1<<20)) >> 21; s11 += carry10; s10 -= carry10 << 21;
-  carry12 = (s12 + (1<<20)) >> 21; s13 += carry12; s12 -= carry12 << 21;
-  carry14 = (s14 + (1<<20)) >> 21; s15 += carry14; s14 -= carry14 << 21;
-  carry16 = (s16 + (1<<20)) >> 21; s17 += carry16; s16 -= carry16 << 21;
-  carry18 = (s18 + (1<<20)) >> 21; s19 += carry18; s18 -= carry18 << 21;
-  carry20 = (s20 + (1<<20)) >> 21; s21 += carry20; s20 -= carry20 << 21;
-  carry22 = (s22 + (1<<20)) >> 21; s23 += carry22; s22 -= carry22 << 21;
+  carry0 = (s0 + (1 << 20)) >> 21;
+  s1 += carry0;
+  s0 -= carry0 << 21;
+  carry2 = (s2 + (1 << 20)) >> 21;
+  s3 += carry2;
+  s2 -= carry2 << 21;
+  carry4 = (s4 + (1 << 20)) >> 21;
+  s5 += carry4;
+  s4 -= carry4 << 21;
+  carry6 = (s6 + (1 << 20)) >> 21;
+  s7 += carry6;
+  s6 -= carry6 << 21;
+  carry8 = (s8 + (1 << 20)) >> 21;
+  s9 += carry8;
+  s8 -= carry8 << 21;
+  carry10 = (s10 + (1 << 20)) >> 21;
+  s11 += carry10;
+  s10 -= carry10 << 21;
+  carry12 = (s12 + (1 << 20)) >> 21;
+  s13 += carry12;
+  s12 -= carry12 << 21;
+  carry14 = (s14 + (1 << 20)) >> 21;
+  s15 += carry14;
+  s14 -= carry14 << 21;
+  carry16 = (s16 + (1 << 20)) >> 21;
+  s17 += carry16;
+  s16 -= carry16 << 21;
+  carry18 = (s18 + (1 << 20)) >> 21;
+  s19 += carry18;
+  s18 -= carry18 << 21;
+  carry20 = (s20 + (1 << 20)) >> 21;
+  s21 += carry20;
+  s20 -= carry20 << 21;
+  carry22 = (s22 + (1 << 20)) >> 21;
+  s23 += carry22;
+  s22 -= carry22 << 21;
 
-  carry1 = (s1 + (1<<20)) >> 21; s2 += carry1; s1 -= carry1 << 21;
-  carry3 = (s3 + (1<<20)) >> 21; s4 += carry3; s3 -= carry3 << 21;
-  carry5 = (s5 + (1<<20)) >> 21; s6 += carry5; s5 -= carry5 << 21;
-  carry7 = (s7 + (1<<20)) >> 21; s8 += carry7; s7 -= carry7 << 21;
-  carry9 = (s9 + (1<<20)) >> 21; s10 += carry9; s9 -= carry9 << 21;
-  carry11 = (s11 + (1<<20)) >> 21; s12 += carry11; s11 -= carry11 << 21;
-  carry13 = (s13 + (1<<20)) >> 21; s14 += carry13; s13 -= carry13 << 21;
-  carry15 = (s15 + (1<<20)) >> 21; s16 += carry15; s15 -= carry15 << 21;
-  carry17 = (s17 + (1<<20)) >> 21; s18 += carry17; s17 -= carry17 << 21;
-  carry19 = (s19 + (1<<20)) >> 21; s20 += carry19; s19 -= carry19 << 21;
-  carry21 = (s21 + (1<<20)) >> 21; s22 += carry21; s21 -= carry21 << 21;
+  carry1 = (s1 + (1 << 20)) >> 21;
+  s2 += carry1;
+  s1 -= carry1 << 21;
+  carry3 = (s3 + (1 << 20)) >> 21;
+  s4 += carry3;
+  s3 -= carry3 << 21;
+  carry5 = (s5 + (1 << 20)) >> 21;
+  s6 += carry5;
+  s5 -= carry5 << 21;
+  carry7 = (s7 + (1 << 20)) >> 21;
+  s8 += carry7;
+  s7 -= carry7 << 21;
+  carry9 = (s9 + (1 << 20)) >> 21;
+  s10 += carry9;
+  s9 -= carry9 << 21;
+  carry11 = (s11 + (1 << 20)) >> 21;
+  s12 += carry11;
+  s11 -= carry11 << 21;
+  carry13 = (s13 + (1 << 20)) >> 21;
+  s14 += carry13;
+  s13 -= carry13 << 21;
+  carry15 = (s15 + (1 << 20)) >> 21;
+  s16 += carry15;
+  s15 -= carry15 << 21;
+  carry17 = (s17 + (1 << 20)) >> 21;
+  s18 += carry17;
+  s17 -= carry17 << 21;
+  carry19 = (s19 + (1 << 20)) >> 21;
+  s20 += carry19;
+  s19 -= carry19 << 21;
+  carry21 = (s21 + (1 << 20)) >> 21;
+  s22 += carry21;
+  s21 -= carry21 << 21;
 
   s11 += s23 * 666643;
   s12 += s23 * 470296;
@@ -217,18 +270,40 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   s11 -= s18 * 683901;
   s18 = 0;
 
-  carry6 = (s6 + (1<<20)) >> 21; s7 += carry6; s6 -= carry6 << 21;
-  carry8 = (s8 + (1<<20)) >> 21; s9 += carry8; s8 -= carry8 << 21;
-  carry10 = (s10 + (1<<20)) >> 21; s11 += carry10; s10 -= carry10 << 21;
-  carry12 = (s12 + (1<<20)) >> 21; s13 += carry12; s12 -= carry12 << 21;
-  carry14 = (s14 + (1<<20)) >> 21; s15 += carry14; s14 -= carry14 << 21;
-  carry16 = (s16 + (1<<20)) >> 21; s17 += carry16; s16 -= carry16 << 21;
+  carry6 = (s6 + (1 << 20)) >> 21;
+  s7 += carry6;
+  s6 -= carry6 << 21;
+  carry8 = (s8 + (1 << 20)) >> 21;
+  s9 += carry8;
+  s8 -= carry8 << 21;
+  carry10 = (s10 + (1 << 20)) >> 21;
+  s11 += carry10;
+  s10 -= carry10 << 21;
+  carry12 = (s12 + (1 << 20)) >> 21;
+  s13 += carry12;
+  s12 -= carry12 << 21;
+  carry14 = (s14 + (1 << 20)) >> 21;
+  s15 += carry14;
+  s14 -= carry14 << 21;
+  carry16 = (s16 + (1 << 20)) >> 21;
+  s17 += carry16;
+  s16 -= carry16 << 21;
 
-  carry7 = (s7 + (1<<20)) >> 21; s8 += carry7; s7 -= carry7 << 21;
-  carry9 = (s9 + (1<<20)) >> 21; s10 += carry9; s9 -= carry9 << 21;
-  carry11 = (s11 + (1<<20)) >> 21; s12 += carry11; s11 -= carry11 << 21;
-  carry13 = (s13 + (1<<20)) >> 21; s14 += carry13; s13 -= carry13 << 21;
-  carry15 = (s15 + (1<<20)) >> 21; s16 += carry15; s15 -= carry15 << 21;
+  carry7 = (s7 + (1 << 20)) >> 21;
+  s8 += carry7;
+  s7 -= carry7 << 21;
+  carry9 = (s9 + (1 << 20)) >> 21;
+  s10 += carry9;
+  s9 -= carry9 << 21;
+  carry11 = (s11 + (1 << 20)) >> 21;
+  s12 += carry11;
+  s11 -= carry11 << 21;
+  carry13 = (s13 + (1 << 20)) >> 21;
+  s14 += carry13;
+  s13 -= carry13 << 21;
+  carry15 = (s15 + (1 << 20)) >> 21;
+  s16 += carry15;
+  s15 -= carry15 << 21;
 
   s5 += s17 * 666643;
   s6 += s17 * 470296;
@@ -278,19 +353,43 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   s5 -= s12 * 683901;
   s12 = 0;
 
-  carry0 = (s0 + (1<<20)) >> 21; s1 += carry0; s0 -= carry0 << 21;
-  carry2 = (s2 + (1<<20)) >> 21; s3 += carry2; s2 -= carry2 << 21;
-  carry4 = (s4 + (1<<20)) >> 21; s5 += carry4; s4 -= carry4 << 21;
-  carry6 = (s6 + (1<<20)) >> 21; s7 += carry6; s6 -= carry6 << 21;
-  carry8 = (s8 + (1<<20)) >> 21; s9 += carry8; s8 -= carry8 << 21;
-  carry10 = (s10 + (1<<20)) >> 21; s11 += carry10; s10 -= carry10 << 21;
+  carry0 = (s0 + (1 << 20)) >> 21;
+  s1 += carry0;
+  s0 -= carry0 << 21;
+  carry2 = (s2 + (1 << 20)) >> 21;
+  s3 += carry2;
+  s2 -= carry2 << 21;
+  carry4 = (s4 + (1 << 20)) >> 21;
+  s5 += carry4;
+  s4 -= carry4 << 21;
+  carry6 = (s6 + (1 << 20)) >> 21;
+  s7 += carry6;
+  s6 -= carry6 << 21;
+  carry8 = (s8 + (1 << 20)) >> 21;
+  s9 += carry8;
+  s8 -= carry8 << 21;
+  carry10 = (s10 + (1 << 20)) >> 21;
+  s11 += carry10;
+  s10 -= carry10 << 21;
 
-  carry1 = (s1 + (1<<20)) >> 21; s2 += carry1; s1 -= carry1 << 21;
-  carry3 = (s3 + (1<<20)) >> 21; s4 += carry3; s3 -= carry3 << 21;
-  carry5 = (s5 + (1<<20)) >> 21; s6 += carry5; s5 -= carry5 << 21;
-  carry7 = (s7 + (1<<20)) >> 21; s8 += carry7; s7 -= carry7 << 21;
-  carry9 = (s9 + (1<<20)) >> 21; s10 += carry9; s9 -= carry9 << 21;
-  carry11 = (s11 + (1<<20)) >> 21; s12 += carry11; s11 -= carry11 << 21;
+  carry1 = (s1 + (1 << 20)) >> 21;
+  s2 += carry1;
+  s1 -= carry1 << 21;
+  carry3 = (s3 + (1 << 20)) >> 21;
+  s4 += carry3;
+  s3 -= carry3 << 21;
+  carry5 = (s5 + (1 << 20)) >> 21;
+  s6 += carry5;
+  s5 -= carry5 << 21;
+  carry7 = (s7 + (1 << 20)) >> 21;
+  s8 += carry7;
+  s7 -= carry7 << 21;
+  carry9 = (s9 + (1 << 20)) >> 21;
+  s10 += carry9;
+  s9 -= carry9 << 21;
+  carry11 = (s11 + (1 << 20)) >> 21;
+  s12 += carry11;
+  s11 -= carry11 << 21;
 
   s0 += s12 * 666643;
   s1 += s12 * 470296;
@@ -300,18 +399,42 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   s5 -= s12 * 683901;
   s12 = 0;
 
-  carry0 = s0 >> 21; s1 += carry0; s0 -= carry0 << 21;
-  carry1 = s1 >> 21; s2 += carry1; s1 -= carry1 << 21;
-  carry2 = s2 >> 21; s3 += carry2; s2 -= carry2 << 21;
-  carry3 = s3 >> 21; s4 += carry3; s3 -= carry3 << 21;
-  carry4 = s4 >> 21; s5 += carry4; s4 -= carry4 << 21;
-  carry5 = s5 >> 21; s6 += carry5; s5 -= carry5 << 21;
-  carry6 = s6 >> 21; s7 += carry6; s6 -= carry6 << 21;
-  carry7 = s7 >> 21; s8 += carry7; s7 -= carry7 << 21;
-  carry8 = s8 >> 21; s9 += carry8; s8 -= carry8 << 21;
-  carry9 = s9 >> 21; s10 += carry9; s9 -= carry9 << 21;
-  carry10 = s10 >> 21; s11 += carry10; s10 -= carry10 << 21;
-  carry11 = s11 >> 21; s12 += carry11; s11 -= carry11 << 21;
+  carry0 = s0 >> 21;
+  s1 += carry0;
+  s0 -= carry0 << 21;
+  carry1 = s1 >> 21;
+  s2 += carry1;
+  s1 -= carry1 << 21;
+  carry2 = s2 >> 21;
+  s3 += carry2;
+  s2 -= carry2 << 21;
+  carry3 = s3 >> 21;
+  s4 += carry3;
+  s3 -= carry3 << 21;
+  carry4 = s4 >> 21;
+  s5 += carry4;
+  s4 -= carry4 << 21;
+  carry5 = s5 >> 21;
+  s6 += carry5;
+  s5 -= carry5 << 21;
+  carry6 = s6 >> 21;
+  s7 += carry6;
+  s6 -= carry6 << 21;
+  carry7 = s7 >> 21;
+  s8 += carry7;
+  s7 -= carry7 << 21;
+  carry8 = s8 >> 21;
+  s9 += carry8;
+  s8 -= carry8 << 21;
+  carry9 = s9 >> 21;
+  s10 += carry9;
+  s9 -= carry9 << 21;
+  carry10 = s10 >> 21;
+  s11 += carry10;
+  s10 -= carry10 << 21;
+  carry11 = s11 >> 21;
+  s12 += carry11;
+  s11 -= carry11 << 21;
 
   s0 += s12 * 666643;
   s1 += s12 * 470296;
@@ -321,17 +444,39 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   s5 -= s12 * 683901;
   s12 = 0;
 
-  carry0 = s0 >> 21; s1 += carry0; s0 -= carry0 << 21;
-  carry1 = s1 >> 21; s2 += carry1; s1 -= carry1 << 21;
-  carry2 = s2 >> 21; s3 += carry2; s2 -= carry2 << 21;
-  carry3 = s3 >> 21; s4 += carry3; s3 -= carry3 << 21;
-  carry4 = s4 >> 21; s5 += carry4; s4 -= carry4 << 21;
-  carry5 = s5 >> 21; s6 += carry5; s5 -= carry5 << 21;
-  carry6 = s6 >> 21; s7 += carry6; s6 -= carry6 << 21;
-  carry7 = s7 >> 21; s8 += carry7; s7 -= carry7 << 21;
-  carry8 = s8 >> 21; s9 += carry8; s8 -= carry8 << 21;
-  carry9 = s9 >> 21; s10 += carry9; s9 -= carry9 << 21;
-  carry10 = s10 >> 21; s11 += carry10; s10 -= carry10 << 21;
+  carry0 = s0 >> 21;
+  s1 += carry0;
+  s0 -= carry0 << 21;
+  carry1 = s1 >> 21;
+  s2 += carry1;
+  s1 -= carry1 << 21;
+  carry2 = s2 >> 21;
+  s3 += carry2;
+  s2 -= carry2 << 21;
+  carry3 = s3 >> 21;
+  s4 += carry3;
+  s3 -= carry3 << 21;
+  carry4 = s4 >> 21;
+  s5 += carry4;
+  s4 -= carry4 << 21;
+  carry5 = s5 >> 21;
+  s6 += carry5;
+  s5 -= carry5 << 21;
+  carry6 = s6 >> 21;
+  s7 += carry6;
+  s6 -= carry6 << 21;
+  carry7 = s7 >> 21;
+  s8 += carry7;
+  s7 -= carry7 << 21;
+  carry8 = s8 >> 21;
+  s9 += carry8;
+  s8 -= carry8 << 21;
+  carry9 = s9 >> 21;
+  s10 += carry9;
+  s9 -= carry9 << 21;
+  carry10 = s10 >> 21;
+  s11 += carry10;
+  s10 -= carry10 << 21;
 
   s[0] = s0 >> 0;
   s[1] = s0 >> 8;

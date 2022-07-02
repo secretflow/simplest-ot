@@ -10,5 +10,4 @@
 
 #define VERBOSE 1
 
-#endif //ifndef OT_CONFIG_H
-
+#endif  // ifndef OT_CONFIG_H
