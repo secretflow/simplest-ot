@@ -65,8 +65,8 @@ typedef UINT8 tKeccakLane;
 #endif
 void KeccakF(tKeccakLane *state, const tKeccakLane *in, int laneCount);
 
-int crypto_hash(unsigned char *out, const unsigned char *in,
-                unsigned long long inlen) {
+int simplest_ot_crypto_hash(unsigned char *out, const unsigned char *in,
+                            unsigned long long inlen) {
   tKeccakLane state[5 * 5];
 #if (crypto_hash_BYTES >= cKeccakR_SizeInBytes)
 #define temp out

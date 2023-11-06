@@ -306,6 +306,6 @@ void ge4x_hash(unsigned char *k, unsigned char *sp, unsigned char *q, ge4x *p) {
     for (j = 0; j < 32; j++) in[j + 32] = q[i * 32 + j];
     for (j = 0; j < 32; j++) in[j + 64] = r[i * 32 + j];
 
-    crypto_hash(k + i * 32, in, sizeof(in));
+    simplest_ot_crypto_hash(k + i * 32, in, sizeof(in));
   }
 }
