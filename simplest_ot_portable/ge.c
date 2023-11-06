@@ -19,7 +19,7 @@ void ge_hash(unsigned char* k, unsigned char* sp, unsigned char* q, ge_p3* p) {
   for (j = 0; j < 32; j++) in[j + 32] = q[j];
   for (j = 0; j < 32; j++) in[j + 64] = r[j];
 
-  crypto_hash(k, in, sizeof(in));
+  simplest_ot_crypto_hash(k, in, sizeof(in));
 }
 
 void ge_p3_cmov(ge_p3* out, ge_p3* in, unsigned char b) {
