@@ -4,9 +4,9 @@ AS = $(CC) $(CFLAGS) -c
 
 OBJS+= Keccak-simple.o
 OBJS+= randombytes.o
-OBJS+= cpucycles.o
+# OBJS+= cpucycles.o
 
-OBJS+= network.o
+# OBJS+= network.o
 OBJS+= ot_sender.o
 OBJS+= ot_receiver.o
 
